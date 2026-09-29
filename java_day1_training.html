@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Day 1 - Fundamentals & Control Statements</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .code {
+      font-family: Consolas, Monaco, monospace;
+    }
+
+    .topic {
+      margin-bottom: 6rem;
+      scroll-margin-top: 100px;
+    }
+
+    .topic>.section-title {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title .number {
+      color: #1d4ed8;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+    }
+
+    .section-title h2 {
+      margin-top: .35rem;
+      font-size: 2.15rem;
+      line-height: 1.2;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .section-title p {
+      margin-top: .5rem;
+      color: #334155;
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    .card {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, .05);
+    }
+
+    .card h3 {
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #0f172a;
+      font-size: 1.25rem;
+    }
+
+    .card p,
+    .card li {
+      color: #1e293b;
+      line-height: 1.75;
+      font-size: 0.95rem;
+    }
+
+    .card strong {
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .card ul,
+    .card ol {
+      padding-left: 1.25rem;
+      list-style: disc;
+    }
+
+    .card ol {
+      list-style: decimal;
+    }
+
+    .card li::marker {
+      color: #2563eb;
+    }
+
+    /* Distinct, legible inline code badges */
+    code:not(pre code) {
+      font-family: Consolas, Monaco, monospace;
+      color: #1e40af;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      font-size: 0.88em;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    th,
+    td {
+      padding: 0.85rem 1.1rem;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    td {
+      color: #0f172a;
+      font-size: 0.95rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .flow-box {
+      border: 1.5px solid #93c5fd;
+      border-radius: .75rem;
+      padding: 0.95rem 1rem;
+      text-align: center;
+      color: #1e40af;
+      background: #eff6ff;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .operator-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+    }
+
+    .operator-grid b {
+      min-width: 2.75rem;
+      padding: .65rem .85rem;
+      text-align: center;
+      border-radius: .6rem;
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1.5px solid #bfdbfe;
+      font-family: Consolas, Monaco, monospace;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .problem {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 1.35rem;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, .05);
+    }
+
+    .problem h3 {
+      font-weight: 800;
+      color: #0f172a;
+      font-size: 1.15rem;
+    }
+
+    .problem p {
+      margin-top: .5rem;
+      color: #334155;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    /* Projector-friendly dark code blocks with crisp light text */
+    pre.code {
+      background: #090e17 !important;
+      color: #f1f5f9 !important;
+      border: 1px solid #1e293b;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    pre.code code {
+      color: #f1f5f9 !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+    }
+
+    /* Visualizer base */
+    .visualizer {
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #dbeafe;
+      background: linear-gradient(135deg, #ffffff, #eff6ff);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+    }
+
+    .visualizer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, .10), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(14, 165, 233, .08), transparent 30%);
+    }
+
+    .viz-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .flow-node {
+      border: 2px solid #93c5fd;
+      background: #fff;
+      color: #1e3a8a;
+      border-radius: .9rem;
+      padding: 1rem;
+      min-width: 145px;
+      text-align: center;
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, .10);
+      transition: transform .45s, box-shadow .45s, border-color .45s;
+    }
+
+    .flow-node.active {
+      transform: translateY(-8px) scale(1.04);
+      border-color: #2563eb;
+      box-shadow: 0 15px 30px rgba(37, 99, 235, .22);
+    }
+
+    .flow-arrow {
+      color: #94a3b8;
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+
+    /* Execution Flow Visualizer */
+    .exec-step-node {
+      position: relative;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 1rem;
+      padding: 1.1rem 0.85rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+      flex: 1;
+      min-width: 130px;
+    }
+
+    .exec-step-node:hover {
+      border-color: #60a5fa;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.12);
+    }
+
+    .exec-step-node.active {
+      border-color: #2563eb;
+      background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 18px 35px -5px rgba(37, 99, 235, 0.28);
+    }
+
+    .exec-step-node.completed {
+      border-color: #93c5fa;
+      background: #f8fafc;
+    }
+
+    .exec-step-node.completed .step-badge {
+      background: #16a34a;
+      color: #ffffff;
+    }
+
+    .exec-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 1.3rem;
+      font-weight: 900;
+      transition: all 0.3s ease;
+      user-select: none;
+      padding: 0 0.25rem;
+    }
+
+    .exec-connector.active {
+      color: #2563eb;
+      transform: scale(1.18);
+    }
+
+    .exec-connector-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      color: #64748b;
+      margin-top: 0.15rem;
+      white-space: nowrap;
+    }
+
+    .exec-connector.active .exec-connector-label {
+      color: #2563eb;
+      font-weight: 800;
+    }
+
+    .exec-terminal-card {
+      background: #090e17;
+      border: 1px solid #1e293b;
+      border-radius: 0.85rem;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .exec-terminal-bar {
+      background: #111a2e;
+      border-bottom: 1px solid #1e293b;
+      padding: 0.6rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .exec-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .exec-dot.red { background: #ef4444; }
+    .exec-dot.yellow { background: #f59e0b; }
+    .exec-dot.green { background: #10b981; }
+
+    .exec-pulse-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2563eb;
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+      animation: execPulse 1.6s infinite;
+    }
+
+    @keyframes execPulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+
+    .memory-cell {
+      border: 2px solid #cbd5e1;
+      background: #fff;
+      border-radius: .9rem;
+      padding: 1rem;
+      min-width: 135px;
+      text-align: center;
+      transition: .4s;
+    }
+
+    .memory-cell.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(37, 99, 235, .16);
+    }
+
+    .decision-path {
+      transition: .45s;
+      opacity: .45;
+    }
+
+    .decision-path.active {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+
+    .loop-token {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-weight: 900;
+      border: 2px solid #93c5fd;
+      transition: .4s;
+    }
+
+    .loop-token.active {
+      background: #2563eb;
+      color: white;
+      transform: scale(1.15);
+      box-shadow: 0 10px 25px rgba(37, 99, 235, .3);
+    }
+
+    .pulse {
+      animation: pulseGlow 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, .15);
+      }
+
+      50% {
+        box-shadow: 0 0 0 12px rgba(37, 99, 235, 0);
+      }
+    }
+
+    .slide-in {
+      animation: slideIn .7s ease both;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Offcanvas Navigation Drawer */
+    #offcanvasDrawer {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #offcanvasBackdrop {
+      transition: opacity 0.3s ease;
+    }
+
+    body.offcanvas-open {
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+
+  <!-- Offcanvas Backdrop Overlay -->
+  <div id="offcanvasBackdrop" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
+
+  <!-- Offcanvas Navigation Drawer -->
+  <aside id="offcanvasDrawer" class="fixed inset-y-0 left-0 z-50 flex w-80 max-w-[85vw] flex-col bg-white shadow-2xl -translate-x-full transition-transform duration-300 ease-in-out border-r border-slate-200" aria-label="Day 1 Table of Contents">
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4 bg-slate-50/90">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white font-bold text-sm shadow-sm">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900">Day 1 Contents</h2>
+          <p class="text-xs text-slate-500 font-semibold">13 Topics · Placement Training</p>
+        </div>
+      </div>
+      <button id="closeOffcanvasBtn" type="button" class="rounded-lg p-2 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer" aria-label="Close Table of Contents">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation Links -->
+    <div class="flex-1 overflow-y-auto p-4">
+      <p class="mb-2 px-2 text-xs font-black uppercase tracking-wider text-slate-400">Quick Navigation</p>
+      <nav id="nav" class="space-y-1 text-sm">
+        <!-- Rendered via JavaScript -->
+      </nav>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="border-t border-slate-200 p-4 bg-slate-50">
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'}); closeOffcanvas();" class="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white py-2.5 text-xs font-extrabold text-slate-700 shadow-sm hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 transition cursor-pointer">
+        <span>↑ Back to Top</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Sticky Top Header -->
+  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3.5">
+      <div class="flex items-center gap-3 sm:gap-4">
+        <!-- Offcanvas Toggle Button -->
+        <button id="openOffcanvasBtn" type="button" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-extrabold text-slate-800 shadow-sm hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer" aria-label="Open Table of Contents">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <span class="font-bold">Contents</span>
+          <span class="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-black text-blue-700 border border-blue-200">13</span>
+        </button>
+
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-blue-700">JAVA BASICS TO MODERATE LEVEL</p>
+          <h1 class="text-base sm:text-xl font-black text-slate-900 leading-tight">Day 1 — Fundamentals & Control Statements</h1>
+        </div>
+      </div>
+      <span class="hidden md:inline-flex rounded-full bg-blue-100 px-3.5 py-1 text-xs font-black text-blue-800 border border-blue-200">4-Day Placement Training</span>
+    </div>
+  </header>
+
+  <!-- Floating Quick-Open Button for Contents -->
+  <button id="floatingOffcanvasBtn" type="button" class="fixed bottom-6 left-6 z-40 flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-white shadow-xl hover:bg-blue-700 active:scale-95 transition-all focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer border border-blue-500" aria-label="Quick Table of Contents">
+    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+    <span class="text-xs font-extrabold tracking-wide">Contents</span>
+  </button>
+
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-10">
+    <main class="w-full">
+      <section class="mb-16">
+        <div class="max-w-4xl">
+          <p class="mb-3 text-blue-700 font-bold tracking-wider">DAY 1</p>
+          <h2 class="text-4xl font-black tracking-tight text-slate-900 md:text-5xl">Java Fundamentals & Control Statements</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-700 font-medium">
+            Build the foundation required for Java programming, placement coding and technical interviews.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl border border-slate-300 bg-white p-5 shadow-sm">
+            <h3 class="text-lg font-black text-slate-900">Learn</h3>
+            <p class="mt-2 text-sm text-slate-700 leading-relaxed font-medium">Understand Java fundamentals with simple explanations.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-300 bg-white p-5 shadow-sm">
+            <h3 class="text-lg font-black text-slate-900">Visualize</h3>
+            <p class="mt-2 text-sm text-slate-700 leading-relaxed font-medium">Use visual flow and execution examples to understand code.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-300 bg-white p-5 shadow-sm">
+            <h3 class="text-lg font-black text-slate-900">Practice</h3>
+            <p class="mt-2 text-sm text-slate-700 leading-relaxed font-medium">Finish with placement-oriented programming problems.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="introduction" class="topic">
+        <div class="section-title">
+          <div class="number">01 — JAVA DAY 1</div>
+          <h2>Introduction to Java</h2>
+          <p>Understand what Java is, where it is used and why it is important.</p>
+        </div>
+        <div class="card">
+          <h3>What is Java?</h3>
+          <ul>
+            <li>Java is a high-level, class-based, object-oriented programming language.</li>
+            <li>Java was originally developed at Sun Microsystems.</li>
+            <li>Java source code is compiled into bytecode.</li>
+            <li>Bytecode is executed by the Java Virtual Machine (JVM).</li>
+            <li>Java follows the principle: <strong>Write Once, Run Anywhere (WORA)</strong>.</li>
+          </ul>
+        </div>
+        <div class="mt-5 grid gap-5 md:grid-cols-2">
+          <div class="card">
+            <h3>Applications of Java</h3>
+            <ul>
+              <li>Web Applications</li>
+              <li>Backend Development</li>
+              <li>Enterprise Applications</li>
+              <li>Android Applications</li>
+              <li>Desktop Applications</li>
+              <li>Banking & Financial Systems</li>
+              <li>Cloud Applications</li>
+              <li>Big Data Technologies</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Features of Java</h3>
+            <ul>
+              <li>Simple</li>
+              <li>Object-Oriented</li>
+              <li>Platform Independent</li>
+              <li>Secure</li>
+              <li>Robust</li>
+              <li>Portable</li>
+              <li>Multithreaded</li>
+              <li>High Performance</li>
+              <li>Distributed</li>
+              <li>Automatic Memory Management</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="execution" class="topic">
+        <div class="section-title">
+          <div class="number">02 — JAVA DAY 1</div>
+          <h2>Java Execution Flow</h2>
+          <p>Understand how Java code transforms from human-readable source code into machine execution.</p>
+        </div>
+
+        <!-- Interactive Java Execution Flow Visualizer -->
+        <div class="visualizer mt-4">
+          <div class="viz-content">
+            <!-- Header & Step Tracker -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-blue-100 pb-5">
+              <div>
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-black tracking-wide text-blue-800">
+                  <span class="exec-pulse-dot"></span>
+                  INTERACTIVE PIPELINE
+                </span>
+                <h3 class="mt-2 text-2xl font-black text-slate-900">Java Execution & Compilation Flow</h3>
+                <p class="text-sm text-slate-700 font-medium">Step through the lifecycle of a Java program from <code class="font-bold">Main.java</code> to native CPU execution.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-black text-slate-700 uppercase tracking-wider">Step:</span>
+                <div class="flex gap-1.5" id="execStepPills">
+                  <button type="button" onclick="setExecutionStep(0)" class="h-8 w-8 rounded-lg font-black text-xs transition border border-slate-300 bg-white text-slate-800 hover:border-blue-500" data-pill="0">1</button>
+                  <button type="button" onclick="setExecutionStep(1)" class="h-8 w-8 rounded-lg font-black text-xs transition border border-slate-300 bg-white text-slate-800 hover:border-blue-500" data-pill="1">2</button>
+                  <button type="button" onclick="setExecutionStep(2)" class="h-8 w-8 rounded-lg font-black text-xs transition border border-slate-300 bg-white text-slate-800 hover:border-blue-500" data-pill="2">3</button>
+                  <button type="button" onclick="setExecutionStep(3)" class="h-8 w-8 rounded-lg font-black text-xs transition border border-slate-300 bg-white text-slate-800 hover:border-blue-500" data-pill="3">4</button>
+                  <button type="button" onclick="setExecutionStep(4)" class="h-8 w-8 rounded-lg font-black text-xs transition border border-slate-300 bg-white text-slate-800 hover:border-blue-500" data-pill="4">5</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mt-5">
+              <div class="flex justify-between text-xs font-extrabold text-slate-800 mb-1.5">
+                <span id="execProgressLabel">Stage 1 of 5: Java Source Code (Main.java)</span>
+                <span id="execProgressPercent" class="text-blue-700 font-black">20% Completed</span>
+              </div>
+              <div class="h-2.5 w-full rounded-full bg-slate-200 overflow-hidden border border-slate-300/50">
+                <div id="execProgressBar" class="h-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500 ease-out" style="width: 20%;"></div>
+              </div>
+            </div>
+
+            <!-- Pipeline Flow Diagram -->
+            <div class="mt-6 flex flex-col lg:flex-row items-center justify-between gap-2" id="executionViz">
+              <!-- Node 1: Source File -->
+              <div onclick="setExecutionStep(0)" class="exec-step-node flow-node active w-full lg:w-auto" data-step="0">
+                <span class="step-badge absolute -top-3 left-4 rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-black text-white shadow">01</span>
+                <div class="flex items-center justify-center mb-1 text-blue-600">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                </div>
+                <div class="font-black text-slate-900 text-sm">Main.java</div>
+                <div class="text-[11px] font-extrabold text-blue-700">Source Code</div>
+                <span class="mt-1 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700 font-bold">Text File</span>
+              </div>
+
+              <!-- Connector 1 -->
+              <div class="exec-connector py-1 lg:py-0" data-arrow="0">
+                <span class="lg:rotate-0 rotate-90 leading-none">→</span>
+                <span class="exec-connector-label">javac</span>
+              </div>
+
+              <!-- Node 2: javac -->
+              <div onclick="setExecutionStep(1)" class="exec-step-node flow-node w-full lg:w-auto" data-step="1">
+                <span class="step-badge absolute -top-3 left-4 rounded-full bg-slate-400 px-2 py-0.5 text-[10px] font-black text-white shadow">02</span>
+                <div class="flex items-center justify-center mb-1 text-slate-600">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                </div>
+                <div class="font-black text-slate-900 text-sm">javac Compiler</div>
+                <div class="text-[11px] font-extrabold text-blue-700">JDK Tool</div>
+                <span class="mt-1 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700 font-bold">Syntax Check</span>
+              </div>
+
+              <!-- Connector 2 -->
+              <div class="exec-connector py-1 lg:py-0" data-arrow="1">
+                <span class="lg:rotate-0 rotate-90 leading-none">→</span>
+                <span class="exec-connector-label">creates</span>
+              </div>
+
+              <!-- Node 3: Bytecode -->
+              <div onclick="setExecutionStep(2)" class="exec-step-node flow-node w-full lg:w-auto" data-step="2">
+                <span class="step-badge absolute -top-3 left-4 rounded-full bg-slate-400 px-2 py-0.5 text-[10px] font-black text-white shadow">03</span>
+                <div class="flex items-center justify-center mb-1 text-slate-600">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                  </svg>
+                </div>
+                <div class="font-black text-slate-900 text-sm">Main.class</div>
+                <div class="text-[11px] font-extrabold text-blue-700">Bytecode</div>
+                <span class="mt-1 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700 font-bold">WORA Binary</span>
+              </div>
+
+              <!-- Connector 3 -->
+              <div class="exec-connector py-1 lg:py-0" data-arrow="2">
+                <span class="lg:rotate-0 rotate-90 leading-none">→</span>
+                <span class="exec-connector-label">loads to</span>
+              </div>
+
+              <!-- Node 4: JVM -->
+              <div onclick="setExecutionStep(3)" class="exec-step-node flow-node w-full lg:w-auto" data-step="3">
+                <span class="step-badge absolute -top-3 left-4 rounded-full bg-slate-400 px-2 py-0.5 text-[10px] font-black text-white shadow">04</span>
+                <div class="flex items-center justify-center mb-1 text-slate-600">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                  </svg>
+                </div>
+                <div class="font-black text-slate-900 text-sm">JVM Engine</div>
+                <div class="text-[11px] font-extrabold text-blue-700">Runtime</div>
+                <span class="mt-1 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700 font-bold">Interpreter & JIT</span>
+              </div>
+
+              <!-- Connector 4 -->
+              <div class="exec-connector py-1 lg:py-0" data-arrow="3">
+                <span class="lg:rotate-0 rotate-90 leading-none">→</span>
+                <span class="exec-connector-label">executes</span>
+              </div>
+
+              <!-- Node 5: Output -->
+              <div onclick="setExecutionStep(4)" class="exec-step-node flow-node w-full lg:w-auto" data-step="4">
+                <span class="step-badge absolute -top-3 left-4 rounded-full bg-slate-400 px-2 py-0.5 text-[10px] font-black text-white shadow">05</span>
+                <div class="flex items-center justify-center mb-1 text-slate-600">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <div class="font-black text-slate-900 text-sm">Program Output</div>
+                <div class="text-[11px] font-extrabold text-blue-700">Console / OS</div>
+                <span class="mt-1 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-700 font-bold">Hello Java</span>
+              </div>
+            </div>
+
+            <!-- Stage Details & Simulated Terminal Card -->
+            <div class="mt-8 grid gap-6 md:grid-cols-12 items-start">
+              <!-- Left: Pedagogical Explanation & Placement Notes -->
+              <div class="md:col-span-6 rounded-xl border border-slate-300 bg-white p-5 shadow-sm">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div>
+                    <span class="text-xs font-black uppercase tracking-wider text-blue-700" id="execDetailStepNum">PHASE 1 OF 5</span>
+                    <h4 class="text-lg font-black text-slate-900" id="execDetailTitle">Java Source Code</h4>
+                  </div>
+                  <span class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-extrabold text-blue-800 border border-blue-200" id="execDetailFile">Main.java</span>
+                </div>
+
+                <p class="mt-3 text-sm leading-relaxed text-slate-700 font-medium" id="execDetailSummary">
+                  The programmer writes human-readable Java instructions saved with a .java extension.
+                </p>
+
+                <div class="mt-4">
+                  <p class="text-xs font-black uppercase tracking-wider text-slate-700">What Happens in this Stage:</p>
+                  <ul class="mt-2 space-y-2 text-sm text-slate-800 font-medium" id="execDetailPoints">
+                    <!-- Dynamic bullet points -->
+                  </ul>
+                </div>
+
+                <!-- Placement Tip Alert -->
+                <div class="mt-5 rounded-xl border border-amber-300 bg-amber-50 p-3.5 text-xs text-amber-950 font-medium leading-relaxed" id="execDetailTip">
+                  <strong>Placement Note:</strong> Java source code cannot be directly understood by the computer's CPU. It must first be compiled into bytecode.
+                </div>
+              </div>
+
+              <!-- Right: Simulated Developer Terminal & Code Inspection -->
+              <div class="md:col-span-6 exec-terminal-card">
+                <div class="exec-terminal-bar">
+                  <div class="flex items-center gap-1.5">
+                    <span class="exec-dot red"></span>
+                    <span class="exec-dot yellow"></span>
+                    <span class="exec-dot green"></span>
+                    <span class="ml-2 text-xs font-mono text-slate-200 font-bold" id="execTermTitle">Main.java — Source Code</span>
+                  </div>
+                  <span class="text-[11px] font-mono text-slate-300 font-bold uppercase tracking-wider">Live Preview</span>
+                </div>
+                <div class="p-4 overflow-x-auto text-xs font-mono leading-relaxed min-h-[220px]" id="execTermContent">
+                  <!-- Dynamic code preview -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Action Controls -->
+            <div class="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-blue-100 pt-5">
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="toggleExecutionAutoPlay()" id="execAutoPlayBtn" class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 font-bold text-white shadow-md transition hover:bg-blue-700 active:scale-95 text-sm">
+                  <svg id="execPlayIcon" class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6V4z"/></svg>
+                  <span id="execPlayText">Auto Play Flow</span>
+                </button>
+                <button type="button" onclick="resetExecutionFlow()" class="rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-bold text-slate-700 text-sm transition hover:bg-slate-50 hover:border-slate-400">
+                  Reset
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="prevExecutionStep()" id="execPrevBtn" class="rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-bold text-slate-700 text-sm transition hover:bg-slate-50 hover:border-slate-400 disabled:opacity-40 disabled:cursor-not-allowed">
+                  ← Previous
+                </button>
+                <button type="button" onclick="nextExecutionStep()" id="execNextBtn" class="rounded-xl bg-slate-900 px-4 py-2.5 font-bold text-white text-sm transition hover:bg-slate-800 active:scale-95">
+                  Next Stage →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Revision Card: Architecture Comparison -->
+        <div class="card mt-6">
+          <h3>Summary: Key Components in Java Execution</h3>
+          <p class="text-sm text-slate-600 mb-4">Quick recap table frequently asked in technical placement interviews.</p>
+          <div class="overflow-x-auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>File / Tool</th>
+                  <th>Primary Role</th>
+                  <th>Platform Dependent?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-bold">Source Code</td>
+                  <td><code>Main.java</code></td>
+                  <td>Human-readable text written by developer</td>
+                  <td>No (Universal text)</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">javac</td>
+                  <td>JDK Compiler</td>
+                  <td>Translates source code to bytecode (.class)</td>
+                  <td>Platform specific compiler tool</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">Bytecode</td>
+                  <td><code>Main.class</code></td>
+                  <td>Intermediate instructions for the JVM (WORA)</td>
+                  <td><strong>Platform Independent</strong> (Runs on any JVM)</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">JVM</td>
+                  <td>JRE / JDK Runtime</td>
+                  <td>Loads, verifies, and executes bytecode via Interpreter + JIT</td>
+                  <td><strong>Platform Dependent</strong> (Windows/Mac/Linux specific)</td>
+                </tr>
+                <tr>
+                  <td class="font-bold">Machine Code</td>
+                  <td>Binary (0s & 1s)</td>
+                  <td>Native instructions executed directly by host CPU</td>
+                  <td>Platform Dependent (OS & CPU specific)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="jdk-jre-jvm" class="topic">
+        <div class="section-title">
+          <div class="number">03 — JAVA DAY 1</div>
+          <h2>JDK, JRE & JVM</h2>
+          <p>Three terms students must understand for interviews.</p>
+        </div>
+        <div class="grid gap-5 md:grid-cols-3">
+          <div class="card">
+            <h3>JVM — Java Virtual Machine</h3>
+            <p>Executes Java bytecode on the target machine.</p>
+            <div class="flow-box mt-5">.class file → JVM → Execution</div>
+          </div>
+          <div class="card">
+            <h3>JRE — Java Runtime Environment</h3>
+            <p>Provides the environment required to run Java applications.</p>
+            <div class="flow-box mt-5">JRE → JVM + Java Libraries</div>
+          </div>
+          <div class="card">
+            <h3>JDK — Java Development Kit</h3>
+            <p>Provides tools required to develop Java applications.</p>
+            <div class="flow-box mt-5">JDK → JRE + Development Tools</div>
+          </div>
+        </div>
+        <div class="mt-5 rounded-2xl border border-blue-200 bg-blue-50 p-6 text-center">
+          <p class="text-2xl font-black text-blue-950">JDK → Develop + Run &nbsp; | &nbsp; JRE → Run &nbsp; | &nbsp; JVM → Execute</p>
+        </div>
+        <div class="card mt-5">
+          <h3>Interview Question</h3>
+          <p><strong>Q: Is Java platform independent?</strong></p>
+          <p class="mt-2">Java source code is compiled into platform-independent bytecode. A JVM specific to each
+            operating system executes that bytecode.</p>
+        </div>
+      </section>
+
+      <section id="program-structure" class="topic">
+        <div class="section-title">
+          <div class="number">04 — JAVA DAY 1</div>
+          <h2>Java Program Structure</h2>
+          <p>Understand the purpose of every important part of the first Java program.</p>
+        </div>
+        <div class="card">
+          <h3>First Java Program</h3>
+          <pre class="code overflow-x-auto rounded-xl bg-slate-50 p-5 text-sm leading-7 text-blue-700"><code>class Main {
+
+    public static void main(String[] args) {
+
+        System.out.println("Hello Java");
+
+    }
+}</code></pre>
+          <div class="mt-6 grid gap-3 md:grid-cols-2">
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">class</p>
+              <p class="mt-1 text-sm text-slate-600">Defines a class.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">Main</p>
+              <p class="mt-1 text-sm text-slate-600">Name of the class.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">main()</p>
+              <p class="mt-1 text-sm text-slate-600">Starting point of a Java application.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">public</p>
+              <p class="mt-1 text-sm text-slate-600">Makes the method accessible to the JVM.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">static</p>
+              <p class="mt-1 text-sm text-slate-600">Allows the JVM to call main() without creating an object.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">void</p>
+              <p class="mt-1 text-sm text-slate-600">The method does not return a value.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">String[] args</p>
+              <p class="mt-1 text-sm text-slate-600">Stores command-line arguments.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">System.out.println()</p>
+              <p class="mt-1 text-sm text-slate-600">Prints output to the console.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="variables" class="topic">
+        <div class="section-title">
+          <div class="number">05 — JAVA DAY 1</div>
+          <h2>Variables & Data Types</h2>
+          <p>Learn how Java stores different kinds of values.</p>
+        </div>
+        <div class="card">
+          <h3>Variables</h3>
+          <p>A variable is a named memory location used to store a value.</p>
+          <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int age = 20;</code></pre>
+          <div class="mt-4 grid gap-3 md:grid-cols-4">
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">int</p>
+              <p class="mt-1 text-sm text-slate-600">Data Type</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">age</p>
+              <p class="mt-1 text-sm text-slate-600">Variable</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">20</p>
+              <p class="mt-1 text-sm text-slate-600">Value</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">=</p>
+              <p class="mt-1 text-sm text-slate-600">Assignment</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-5 grid gap-5 md:grid-cols-2">
+          <div class="card">
+            <h3>Variable Naming Rules</h3>
+            <ul>
+              <li>Can contain letters, digits, <code>_</code> and <code>$</code>.</li>
+              <li>Cannot start with a digit.</li>
+              <li>Cannot use Java keywords.</li>
+              <li>Java is case-sensitive.</li>
+              <li>Use meaningful names.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Examples</h3>
+            <pre class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int age = 20;
+double salary = 25000.50;
+char grade = 'A';
+boolean passed = true;</code></pre>
+          </div>
+        </div>
+
+        <div class="card mt-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+            <div>
+              <h3 class="mb-0 text-xl font-black text-slate-900">Primitive Data Types (8 Types)</h3>
+              <p class="mt-1 text-sm text-slate-600">Fundamental building blocks stored directly in stack memory with fixed sizes and exact ranges.</p>
+            </div>
+            <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700 border border-blue-200">Fixed Memory Sizes</span>
+          </div>
+
+          <!-- Master Range & Specifications Table -->
+          <div class="overflow-x-auto mt-4">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data Type</th>
+                  <th>Size</th>
+                  <th>Range (Min to Max)</th>
+                  <th>Default Value</th>
+                  <th>Wrapper Class</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>byte</code></td>
+                  <td>1 byte (8 bits)</td>
+                  <td><code>-128</code> to <code>127</code> (−2<sup>7</sup> to 2<sup>7</sup>−1)</td>
+                  <td><code>0</code></td>
+                  <td><code>Byte</code></td>
+                  <td><code>byte b = 100;</code></td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>short</code></td>
+                  <td>2 bytes (16 bits)</td>
+                  <td><code>-32,768</code> to <code>32,767</code> (−2<sup>15</sup> to 2<sup>15</sup>−1)</td>
+                  <td><code>0</code></td>
+                  <td><code>Short</code></td>
+                  <td><code>short s = 5000;</code></td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>int</code></td>
+                  <td>4 bytes (32 bits)</td>
+                  <td><code>-2,147,483,648</code> to <code>2,147,483,647</code> (~ ±2 × 10<sup>9</sup>)</td>
+                  <td><code>0</code></td>
+                  <td><code>Integer</code></td>
+                  <td><code>int count = 100000;</code></td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>long</code></td>
+                  <td>8 bytes (64 bits)</td>
+                  <td><code>-9,223,372,036,854,775,808</code> to <code>9,223,372,036,854,775,807</code></td>
+                  <td><code>0L</code></td>
+                  <td><code>Long</code></td>
+                  <td><code>long pop = 8000000000L;</code></td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>float</code></td>
+                  <td>4 bytes (32 bits)</td>
+                  <td>±1.4E-45 to ±3.4028235E+38 (6–7 decimal digits precision)</td>
+                  <td><code>0.0f</code></td>
+                  <td><code>Float</code></td>
+                  <td><code>float price = 99.95f;</code></td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>double</code></td>
+                  <td>8 bytes (64 bits)</td>
+                  <td>±4.9E-324 to ±1.7976931348623157E+308 (15–16 decimal digits)</td>
+                  <td><code>0.0d</code></td>
+                  <td><code>Double</code></td>
+                  <td><code>double pi = 3.1415926535;</code></td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>char</code></td>
+                  <td>2 bytes (16 bits)</td>
+                  <td><code>0</code> to <code>65,535</code> (<code>'\u0000'</code> to <code>'\uffff'</code>, Unsigned Unicode)</td>
+                  <td><code>'\u0000'</code></td>
+                  <td><code>Character</code></td>
+                  <td><code>char grade = 'A';</code></td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700"><code>boolean</code></td>
+                  <td>1 bit (JVM dependent)</td>
+                  <td><code>true</code> or <code>false</code> (only 2 distinct logical states)</td>
+                  <td><code>false</code></td>
+                  <td><code>Boolean</code></td>
+                  <td><code>boolean isActive = true;</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-5 grid gap-5 md:grid-cols-2">
+          <div class="card">
+            <h3>Reference Data Types</h3>
+            <p>Reference types store a reference to an object.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>String name = "Lokesh";
+int[] numbers = {10, 20, 30};</code></pre>
+            <p class="mt-4">Examples: String, Arrays, Classes, Objects and Interfaces.</p>
+          </div>
+          <div class="card">
+            <h3>final Keyword</h3>
+            <p><code>final</code> prevents reassignment of a variable.</p>
+            <pre
+              class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>final double PI = 3.14159;</code></pre>
+            <p class="mt-3 text-red-600">PI = 3.14; // Not allowed</p>
+          </div>
+        </div>
+
+        <div class="visualizer mt-6">
+          <div class="viz-content">
+            <h3 class="mb-5 text-center text-xl font-black text-slate-800">Variable Memory Visualizer</h3>
+            <div class="flex flex-wrap justify-center gap-4" id="memoryViz">
+              <div class="memory-cell">
+                <div class="text-xs font-black uppercase tracking-wider text-slate-700">int</div>
+                <div class="text-lg font-black text-slate-900">age</div>
+                <div class="text-base font-extrabold text-blue-700">20</div>
+              </div>
+              <div class="memory-cell">
+                <div class="text-xs font-black uppercase tracking-wider text-slate-700">double</div>
+                <div class="text-lg font-black text-slate-900">salary</div>
+                <div class="text-base font-extrabold text-blue-700">25000.50</div>
+              </div>
+              <div class="memory-cell">
+                <div class="text-xs font-black uppercase tracking-wider text-slate-700">char</div>
+                <div class="text-lg font-black text-slate-900">grade</div>
+                <div class="text-base font-extrabold text-blue-700">'A'</div>
+              </div>
+              <div class="memory-cell">
+                <div class="text-xs font-black uppercase tracking-wider text-slate-700">boolean</div>
+                <div class="text-lg font-black text-slate-900">passed</div>
+                <div class="text-base font-extrabold text-blue-700">true</div>
+              </div>
+            </div>
+            <div class="mt-6 text-center"><button onclick="animateMemory()"
+                class="rounded-xl bg-blue-600 px-5 py-3 font-bold text-white shadow-lg">▶ Animate Variables</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="casting" class="topic">
+        <div class="section-title">
+          <div class="number">06 — JAVA DAY 1</div>
+          <h2>Type Casting</h2>
+          <p>Convert one data type into another.</p>
+        </div>
+        <div class="grid gap-5 md:grid-cols-2">
+          <div class="card">
+            <h3>Widening Casting</h3>
+            <p>Smaller type → larger compatible type. Usually happens automatically.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int a = 10;
+double b = a;</code></pre>
+            <div class="flow-box mt-4">int → double</div>
+          </div>
+          <div class="card">
+            <h3>Narrowing Casting</h3>
+            <p>Larger type → smaller type. Requires explicit casting.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>double a = 10.5;
+int b = (int) a;</code></pre>
+            <div class="flow-box mt-4">double → int</div>
+            <p class="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-900">Note: The fractional part is discarded.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="operators" class="topic">
+        <div class="section-title">
+          <div class="number">07 — JAVA DAY 1</div>
+          <h2>Operators</h2>
+          <p>Use operators to calculate, compare, combine and modify values.</p>
+        </div>
+        <div class="grid gap-5 md:grid-cols-2">
+          <div class="card">
+            <h3>Arithmetic Operators</h3>
+            <div class="operator-grid"><b>+</b><b>-</b><b>*</b><b>/</b><b>%</b></div>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int a = 10;
+int b = 3;
+
+a + b  // 13
+a - b  // 7
+a * b  // 30
+a / b  // 3
+a % b  // 1</code></pre>
+            <p class="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-900">Note: Integer division discards the decimal: 10 / 3 = 3.</p>
+          </div>
+          <div class="card">
+            <h3>Relational Operators</h3>
+            <div class="operator-grid"><b>&gt;</b><b>&lt;</b><b>&gt;=</b><b>&lt;=</b><b>==</b><b>!=</b></div>
+            <p class="mt-4">The result is always <strong>true</strong> or <strong>false</strong>.</p>
+          </div>
+          <div class="card">
+            <h3>Logical Operators</h3>
+            <div class="operator-grid"><b>&amp;&amp;</b><b>||</b><b>!</b></div>
+            <ul class="mt-4">
+              <li><strong>&amp;&amp;</strong> — AND: both conditions must be true.</li>
+              <li><strong>||</strong> — OR: at least one condition must be true.</li>
+              <li><strong>!</strong> — NOT: reverses the result.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Assignment Operators</h3>
+            <div class="operator-grid"><b>=</b><b>+=</b><b>-=</b><b>*=</b><b>/=</b><b>%=</b></div>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int x = 10;
+x += 5;
+
+// Same as:
+x = x + 5;</code></pre>
+          </div>
+          <div class="card">
+            <h3>Increment & Decrement</h3>
+            <div class="operator-grid"><b>++</b><b>--</b></div>
+            <p class="mt-4"><strong>Pre-increment:</strong> <code>++x</code> — increase first, then use.</p>
+            <p class="mt-2"><strong>Post-increment:</strong> <code>x++</code> — use first, then increase.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int x = 5;
+int y = x++;
+
+System.out.println(x); // 6
+System.out.println(y); // 5</code></pre>
+          </div>
+          <div class="card">
+            <h3>Ternary Operator</h3>
+            <pre
+              class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>condition ? value1 : value2;</code></pre>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int age = 20;
+String result =
+    age >= 18 ? "Adult" : "Minor";</code></pre>
+          </div>
+          <div class="card">
+            <h3>Bitwise Operators</h3>
+            <div class="operator-grid"><b>&amp;</b><b>|</b><b>^</b><b>~</b><b>&lt;&lt;</b><b>&gt;&gt;</b></div>
+            <p class="mt-4">Bitwise operators work at the bit level. For Day 1, focus on the basic idea and simple
+              examples.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="input" class="topic">
+        <div class="section-title">
+          <div class="number">08 — JAVA DAY 1</div>
+          <h2>User Input — Scanner</h2>
+          <p>Read values entered by the user.</p>
+        </div>
+        <div class="card">
+          <h3>Scanner Class</h3>
+          <pre class="code rounded-xl bg-slate-50 p-5 text-sm leading-7 text-blue-700"><code>import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter your age: ");
+        int age = sc.nextInt();
+
+        System.out.println("Age = " + age);
+    }
+}</code></pre>
+          <div class="mt-5 grid gap-3 md:grid-cols-2">
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">nextInt()</p>
+              <p class="mt-1 text-sm text-slate-600">Reads an integer.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">nextDouble()</p>
+              <p class="mt-1 text-sm text-slate-600">Reads a double.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">next()</p>
+              <p class="mt-1 text-sm text-slate-600">Reads a word/token.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">nextLine()</p>
+              <p class="mt-1 text-sm text-slate-600">Reads a complete line.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">next().charAt(0)</p>
+              <p class="mt-1 text-sm text-slate-600">Reads a character.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="conditions" class="topic">
+        <div class="section-title">
+          <div class="number">09 — JAVA DAY 1</div>
+          <h2>Decision Making</h2>
+          <p>Control which block of code executes based on conditions.</p>
+        </div>
+        <div class="grid gap-5 md:grid-cols-2">
+          <div class="card">
+            <h3>if</h3>
+            <pre class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>if (condition) {
+    // code
+}</code></pre>
+          </div>
+          <div class="card">
+            <h3>if-else</h3>
+            <pre class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>if (condition) {
+    // true
+} else {
+    // false
+}</code></pre>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>if (number % 2 == 0) {
+    System.out.println("Even");
+} else {
+    System.out.println("Odd");
+}</code></pre>
+          </div>
+          <div class="card">
+            <h3>else-if</h3>
+            <pre class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>if (marks >= 90) {
+    System.out.println("A");
+} else if (marks >= 75) {
+    System.out.println("B");
+} else if (marks >= 60) {
+    System.out.println("C");
+} else {
+    System.out.println("D");
+}</code></pre>
+          </div>
+          <div class="card">
+            <h3>Nested if</h3>
+            <p>An <code>if</code> statement inside another <code>if</code>.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>if (age >= 18) {
+    if (hasLicense) {
+        System.out.println("Can drive");
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="card mt-5">
+          <h3>switch</h3>
+          <p class="mb-4">Used when comparing one expression against multiple fixed values.</p>
+          <pre class="code rounded-xl bg-slate-50 p-5 text-sm leading-7 text-blue-700"><code>switch (day) {
+
+    case 1:
+        System.out.println("Monday");
+        break;
+
+    case 2:
+        System.out.println("Tuesday");
+        break;
+
+    default:
+        System.out.println("Invalid");
+}</code></pre>
+          <div class="mt-5 grid gap-3 md:grid-cols-3">
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">case</p>
+              <p class="mt-1 text-sm text-slate-600">Defines a matching option.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">break</p>
+              <p class="mt-1 text-sm text-slate-700 font-medium">Stops switch execution.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">default</p>
+              <p class="mt-1 text-sm text-slate-700 font-medium">Runs when no case matches.</p>
+            </div>
+          </div>
+          <div class="mt-5 rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-950 font-medium leading-relaxed">
+            <strong>Placement Tip:</strong> If <code>break</code> is omitted, execution can continue into following
+            cases until a break or the end of the switch (fall-through behavior).
+          </div>
+        </div>
+
+        <div class="visualizer mt-6">
+          <div class="viz-content">
+            <h3 class="text-center text-xl font-black text-slate-800">if-else Decision Visualizer</h3>
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <input id="decisionInput" type="number" value="50"
+                class="w-32 rounded-xl border border-slate-300 bg-white px-4 py-3 text-center text-lg font-bold outline-none focus:border-blue-500">
+              <button onclick="runDecision()" class="rounded-xl bg-blue-600 px-5 py-3 font-bold text-white">Check
+                Marks</button>
+            </div>
+            <div class="mt-6 flex flex-col items-center gap-3 md:flex-row md:justify-center">
+              <div class="flow-node pulse">marks >= 40?</div>
+              <div class="flow-arrow">→</div>
+              <div id="decisionResult"
+                class="decision-path rounded-xl border-2 border-slate-300 bg-white px-8 py-5 text-xl font-black text-slate-900">Result
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="loops" class="topic">
+        <div class="section-title">
+          <div class="number">10 — JAVA DAY 1</div>
+          <h2>Loops</h2>
+          <p>Repeat a block of code while a condition is satisfied.</p>
+        </div>
+        <div class="grid gap-5 md:grid-cols-3">
+          <div class="card">
+            <h3>for Loop</h3>
+            <p>Best when the number of iterations is known.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>for (initialization; condition; update) {
+    // code
+}</code></pre>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>for (int i = 1; i <= 5; i++) {
+    System.out.println(i);
+}</code></pre>
+          </div>
+          <div class="card">
+            <h3>while Loop</h3>
+            <p>The condition is checked before each iteration.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int i = 1;
+
+while (i <= 5) {
+    System.out.println(i);
+    i++;
+}</code></pre>
+          </div>
+          <div class="card">
+            <h3>do-while Loop</h3>
+            <p>The body executes at least once.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>int i = 1;
+
+do {
+    System.out.println(i);
+    i++;
+} while (i <= 5);</code></pre>
+          </div>
+        </div>
+
+        <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-6">
+          <h3 class="font-bold">while vs do-while</h3>
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div class="rounded-xl bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">while</p>
+              <p class="mt-2 text-sm text-slate-600">Condition first → body may execute 0 times.</p>
+            </div>
+            <div class="rounded-xl bg-slate-50 p-4">
+              <p class="font-bold text-blue-700">do-while</p>
+              <p class="mt-2 text-sm text-slate-600">Body first → executes at least once.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 grid gap-5 md:grid-cols-2">
+          <div class="card">
+            <h3>break</h3>
+            <p>Immediately terminates the loop or switch.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>for (int i = 1; i <= 10; i++) {
+
+    if (i == 5) {
+        break;
+    }
+
+    System.out.println(i);
+}</code></pre>
+            <p class="mt-3 text-slate-600">Output: 1 2 3 4</p>
+          </div>
+          <div class="card">
+            <h3>continue</h3>
+            <p>Skips the current iteration and moves to the next iteration.</p>
+            <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>for (int i = 1; i <= 5; i++) {
+
+    if (i == 3) {
+        continue;
+    }
+
+    System.out.println(i);
+}</code></pre>
+            <p class="mt-3 text-slate-600">Output: 1 2 4 5</p>
+          </div>
+        </div>
+
+        <div class="card mt-5">
+          <h3>Nested Loops</h3>
+          <p>A loop inside another loop.</p>
+          <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm leading-7 text-blue-700"><code>for (int i = 1; i <= 3; i++) {
+
+    for (int j = 1; j <= 3; j++) {
+        System.out.print("* ");
+    }
+
+    System.out.println();
+}</code></pre>
+          <pre class="code mt-4 rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>* * *
+* * *
+* * *</code></pre>
+        </div>
+
+        <div class="visualizer mt-6">
+          <div class="viz-content">
+            <h3 class="text-center text-xl font-black text-slate-900">for Loop Visualizer</h3>
+            <p class="mt-2 text-center text-slate-700 font-medium">Watch <code>i</code> move through the loop.</p>
+            <div class="mt-6 flex flex-wrap justify-center gap-3" id="loopViz"></div>
+            <div class="mt-6 text-center">
+              <div id="loopStatus" class="mb-4 text-lg font-black text-blue-800">Ready</div>
+              <button onclick="runLoop()" class="rounded-xl bg-blue-600 px-5 py-3 font-bold text-white shadow-md hover:bg-blue-700">▶ Run
+                Loop</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="hands-on" class="topic">
+        <div class="section-title">
+          <div class="number">11 — JAVA DAY 1</div>
+          <h2>Hands-on Programs</h2>
+          <p>Solve these after completing the concepts.</p>
+        </div>
+        <div class="grid gap-5 md:grid-cols-3">
+          <div class="problem">
+            <h3>1. Addition & Subtraction</h3>
+            <p>Input two numbers and print their sum and difference.</p>
+          </div>
+          <div class="problem">
+            <h3>2. Area Calculation</h3>
+            <p>Calculate the area of a circle, rectangle and triangle.</p>
+          </div>
+          <div class="problem">
+            <h3>3. Swap Two Numbers</h3>
+            <p>Swap two numbers using a third variable and without a third variable.</p>
+          </div>
+          <div class="problem">
+            <h3>4. Even or Odd</h3>
+            <p>Determine whether a number is even or odd.</p>
+          </div>
+          <div class="problem">
+            <h3>5. Positive, Negative or Zero</h3>
+            <p>Classify a given number.</p>
+          </div>
+          <div class="problem">
+            <h3>6. Largest of Three Numbers</h3>
+            <p>Find the largest among three numbers.</p>
+          </div>
+          <div class="problem">
+            <h3>7. Leap Year</h3>
+            <p>Check whether a given year is a leap year.</p>
+          </div>
+          <div class="problem">
+            <h3>8. Simple Calculator</h3>
+            <p>Perform +, -, *, / and % using switch.</p>
+          </div>
+          <div class="problem">
+            <h3>9. Factorial</h3>
+            <p>Calculate n! using a loop.</p>
+          </div>
+          <div class="problem">
+            <h3>10. Fibonacci Series</h3>
+            <p>Print the Fibonacci sequence for n terms.</p>
+          </div>
+          <div class="problem">
+            <h3>11. Prime Number</h3>
+            <p>Check whether a number is prime.</p>
+          </div>
+          <div class="problem">
+            <h3>12. Palindrome Number</h3>
+            <p>Check whether a number reads the same forward and backward.</p>
+          </div>
+          <div class="problem">
+            <h3>13. Armstrong Number</h3>
+            <p>Check whether a number is an Armstrong number.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="placement" class="topic">
+        <div class="section-title">
+          <div class="number">12 — JAVA DAY 1</div>
+          <h2>Placement Challenge</h2>
+          <p>Use these problems as the end-of-day coding practice.</p>
+        </div>
+        <div class="card">
+          <h3>Easy</h3>
+          <ol>
+            <li>Sum of digits</li>
+            <li>Count digits</li>
+            <li>Reverse a number</li>
+            <li>Even or odd</li>
+            <li>Largest of three</li>
+          </ol>
+        </div>
+        <div class="card mt-5">
+          <h3>Moderate</h3>
+          <ol>
+            <li>Prime number</li>
+            <li>Palindrome number</li>
+            <li>Armstrong number</li>
+            <li>Fibonacci series</li>
+            <li>Factorial</li>
+          </ol>
+        </div>
+        <div class="card mt-5">
+          <h3>Pattern Programs</h3>
+          <p class="mb-3">Square:</p>
+          <pre class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>* * *
+* * *
+* * *</code></pre>
+          <p class="mb-3 mt-5">Right Triangle:</p>
+          <pre class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>*
+* *
+* * *
+* * * *</code></pre>
+          <p class="mb-3 mt-5">Number Pattern:</p>
+          <pre class="code rounded-xl bg-slate-50 p-5 text-sm text-blue-700"><code>1
+1 2
+1 2 3
+1 2 3 4</code></pre>
+        </div>
+      </section>
+
+      <section id="interview" class="topic">
+        <div class="section-title">
+          <div class="number">13 — JAVA DAY 1</div>
+          <h2>Day 1 Interview Revision</h2>
+          <p>Quick questions to test understanding.</p>
+        </div>
+        <div id="questions" class="space-y-3"></div>
+      </section>
+
+      <section class="mt-20 border-t border-slate-200 pt-10">
+        <div class="rounded-3xl border border-blue-200 bg-blue-50 p-8 text-center">
+          <p class="text-sm font-black uppercase tracking-widest text-blue-700">Day 1 Goal</p>
+          <h2 class="mt-3 text-3xl font-black text-slate-900">Input → Logic → Conditions → Loops → Problem Solving</h2>
+          <p class="mx-auto mt-4 max-w-2xl text-slate-700 font-medium leading-relaxed">
+            By the end of Day 1, students should be able to take input, apply conditions, use loops and independently
+            solve basic number-based placement problems.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const navItems = [
+      ["introduction", "Introduction to Java"],
+      ["execution", "Java Execution Flow"],
+      ["jdk-jre-jvm", "JDK, JRE & JVM"],
+      ["program-structure", "Java Program Structure"],
+      ["variables", "Variables & Data Types"],
+      ["casting", "Type Casting"],
+      ["operators", "Operators"],
+      ["input", "User Input"],
+      ["conditions", "Decision Making"],
+      ["loops", "Loops"],
+      ["hands-on", "Hands-on Programs"],
+      ["placement", "Placement Challenge"],
+      ["interview", "Interview Revision"]
+    ];
+
+    // Render navigation links into Offcanvas
+    const navContainer = document.getElementById("nav");
+    if (navContainer) {
+      navContainer.innerHTML = navItems.map(([id, label], i) =>
+        `<a href="#${id}" onclick="closeOffcanvas()" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-800 font-semibold transition hover:bg-blue-50 hover:text-blue-700">
+          <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-blue-50 text-xs font-black text-blue-700 border border-blue-200">${String(i + 1).padStart(2, "0")}</span>
+          <span class="text-sm font-medium text-slate-800 hover:text-blue-700">${label}</span>
+        </a>`
+      ).join("");
+    }
+
+    // Offcanvas Drawer Logic
+    const offcanvasDrawer = document.getElementById('offcanvasDrawer');
+    const offcanvasBackdrop = document.getElementById('offcanvasBackdrop');
+    const openOffcanvasBtn = document.getElementById('openOffcanvasBtn');
+    const closeOffcanvasBtn = document.getElementById('closeOffcanvasBtn');
+    const floatingOffcanvasBtn = document.getElementById('floatingOffcanvasBtn');
+
+    function openOffcanvas() {
+      if (!offcanvasDrawer || !offcanvasBackdrop) return;
+      offcanvasDrawer.classList.remove('-translate-x-full');
+      offcanvasDrawer.classList.add('translate-x-0');
+      offcanvasBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+      offcanvasBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.classList.add('offcanvas-open');
+    }
+
+    function closeOffcanvas() {
+      if (!offcanvasDrawer || !offcanvasBackdrop) return;
+      offcanvasDrawer.classList.remove('translate-x-0');
+      offcanvasDrawer.classList.add('-translate-x-full');
+      offcanvasBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+      offcanvasBackdrop.classList.add('opacity-0', 'pointer-events-none');
+      document.body.classList.remove('offcanvas-open');
+    }
+
+    if (openOffcanvasBtn) openOffcanvasBtn.addEventListener('click', openOffcanvas);
+    if (closeOffcanvasBtn) closeOffcanvasBtn.addEventListener('click', closeOffcanvas);
+    if (floatingOffcanvasBtn) floatingOffcanvasBtn.addEventListener('click', openOffcanvas);
+    if (offcanvasBackdrop) offcanvasBackdrop.addEventListener('click', closeOffcanvas);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeOffcanvas();
+    });
+
+    const questions = [
+      "What is Java?",
+      "Why is Java platform independent?",
+      "What is the difference between JDK, JRE and JVM?",
+      "What is bytecode?",
+      "What are primitive data types?",
+      "What is type casting?",
+      "What is the difference between ++i and i++?",
+      "What is the difference between == and =?",
+      "What is the ternary operator?",
+      "What is the difference between break and continue?",
+      "What is the difference between while and do-while?",
+      "What happens when break is omitted in switch?",
+      "What is a nested loop?",
+      "Why is Scanner used?",
+      "What is the difference between next() and nextLine()?"
+    ];
+
+    document.getElementById("questions").innerHTML = questions.map((q, i) => `
+      <details class="group rounded-xl border border-slate-300 bg-white shadow-sm">
+        <summary class="cursor-pointer list-none px-5 py-4 font-bold text-slate-900 flex items-center justify-between">
+          <span><span class="mr-3 text-blue-700 font-extrabold">${String(i + 1).padStart(2, "0")}</span>${q}</span>
+          <span class="text-slate-600 font-bold group-open:rotate-180 transition">⌄</span>
+        </summary>
+        <div class="border-t border-slate-200 px-5 py-4 text-sm text-slate-700 font-medium bg-slate-50/50">
+          Use this question for oral discussion or a quick placement mock interview.
+        </div>
+      </details>
+    `).join("");
+  </script>
+
+  <script>
+    // Java Execution Flow Visualizer Logic
+    const executionSteps = [
+      {
+        step: 1,
+        name: "Java Source Code",
+        file: "Main.java",
+        tag: "Developer / IDE",
+        summary: "The programmer writes human-readable Java instructions saved with a .java extension.",
+        points: [
+          "Written in plain text using any editor or IDE (VS Code, IntelliJ, Eclipse).",
+          "Must declare a class whose name matches the file: <code>Main.java → public class Main</code>.",
+          "Contains the program entry point: <code>public static void main(String[] args)</code>."
+        ],
+        tip: "Placement Note: Java source code cannot be directly executed by the host CPU. It must first be processed by the Java compiler.",
+        termHeader: "Main.java — Source File",
+        termCode: `<span class="text-blue-400">public class</span> <span class="text-amber-300">Main</span> {
+    <span class="text-blue-400">public static void</span> <span class="text-green-300">main</span>(<span class="text-yellow-300">String</span>[] <span class="text-slate-300">args</span>) {
+        <span class="text-yellow-300">System</span>.<span class="text-slate-300">out</span>.<span class="text-green-300">println</span>(<span class="text-emerald-300">"Hello Java"</span>);
+    }
+}`
+      },
+      {
+        step: 2,
+        name: "javac Compiler",
+        file: "JDK Tool",
+        tag: "Syntax & Compilation",
+        summary: "The javac (Java Compiler) tool from the JDK parses, validates, and compiles the source code into intermediate bytecode.",
+        points: [
+          "Performs lexical analysis, syntax checking, and type safety verification.",
+          "Halts and reports compilation errors if any syntax mistake or type mismatch exists.",
+          "Does NOT generate machine code; it translates Java code into JVM bytecode (.class)."
+        ],
+        tip: "Placement Note: javac is a developer tool included only with the JDK, not standard JRE. The output is architecture-neutral.",
+        termHeader: "Terminal — javac Compilation",
+        termCode: `<span class="text-slate-400">$</span> <span class="text-green-400 font-bold">javac Main.java</span>
+<span class="text-slate-400">[javac]</span> Parsing source file Main.java...
+<span class="text-slate-400">[javac]</span> Checking lexical syntax, types and imports...
+<span class="text-slate-400">[javac]</span> Writing bytecode instructions to Main.class...
+<span class="text-emerald-400 font-bold">[BUILD SUCCESS]</span> Generated binary file: Main.class (418 bytes)`
+      },
+      {
+        step: 3,
+        name: "Bytecode (.class)",
+        file: "Main.class",
+        tag: "Platform-Independent",
+        summary: "The compiled intermediate binary instruction set that can run on any device equipped with a compatible JVM.",
+        points: [
+          "Begins with the famous 4-byte magic number: <code>0xCAFEBABE</code>.",
+          "Architecture-neutral: compiled once on Windows, runs equally on Linux, macOS, or Unix.",
+          "Can be disassembled and inspected using the JDK command: <code>javap -c Main</code>."
+        ],
+        tip: "Placement Note: Bytecode provides Java's 'Write Once, Run Anywhere' (WORA) capability without recompiling for different CPUs.",
+        termHeader: "Disassembler — javap -c Main",
+        termCode: `<span class="text-slate-500">// Magic Number: 0xCAFEBABE (Compiled Java Class File)</span>
+<span class="text-blue-400">Compiled from</span> <span class="text-amber-300">"Main.java"</span>
+<span class="text-blue-400">public class</span> <span class="text-yellow-300">Main</span> {
+  <span class="text-blue-400">public static void</span> <span class="text-green-300">main</span>(<span class="text-yellow-300">java.lang.String</span>[]);
+    <span class="text-cyan-300">Code:</span>
+       <span class="text-slate-400">0:</span> <span class="text-pink-400">getstatic</span>     #7  <span class="text-slate-500">// Field java/lang/System.out:Ljava/io/PrintStream;</span>
+       <span class="text-slate-400">3:</span> <span class="text-pink-400">ldc</span>           #13 <span class="text-slate-500">// String "Hello Java"</span>
+       <span class="text-slate-400">5:</span> <span class="text-pink-400">invokevirtual</span> #15 <span class="text-slate-500">// Method println:(Ljava/lang/String;)V</span>
+       <span class="text-slate-400">8:</span> <span class="text-pink-400">return</span>
+}`
+      },
+      {
+        step: 4,
+        name: "JVM (Java Virtual Machine)",
+        file: "JVM Runtime",
+        tag: "Execution Engine",
+        summary: "The runtime engine that loads the .class file, verifies its integrity, and executes the bytecode on the target machine.",
+        points: [
+          "ClassLoader: Loads Main.class into JVM memory (Method Area / Metaspace).",
+          "Bytecode Verifier: Confirms format validity, stack safety, and prevents unauthorized memory access.",
+          "Execution Engine: Uses an Interpreter for fast startup and a JIT (Just-In-Time) compiler to compile hotspot methods directly to native CPU code."
+        ],
+        tip: "Placement Note: JVM is platform-dependent (different binaries for Windows, Linux, macOS), while the bytecode it executes is platform-independent.",
+        termHeader: "JVM Subsystems Architecture",
+        termCode: `<span class="text-yellow-300 font-bold">[1. ClassLoader Subsystem]</span>
+   ├── Loading: Bootstrap -> Extension -> Application ClassLoader
+   └── Linking (Verification, Preparation, Resolution) & Initialization
+
+<span class="text-cyan-300 font-bold">[2. Bytecode Verifier]</span>
+   └── Checks operand stack, type constraints & security restrictions
+
+<span class="text-green-300 font-bold">[3. Execution Engine]</span>
+   ├── <span class="text-purple-300">Interpreter:</span> Reads bytecode line-by-line
+   ├── <span class="text-pink-300">JIT Compiler:</span> Translates frequent bytecode to native CPU instructions
+   └── <span class="text-amber-300">Garbage Collector:</span> Recovers unreferenced memory automatically`
+      },
+      {
+        step: 5,
+        name: "Program Output",
+        file: "Host OS / CPU",
+        tag: "Console Output",
+        summary: "The native CPU executes the translated machine code and renders the output to the terminal or GUI.",
+        points: [
+          "Executed via the launch command: <code>java Main</code>.",
+          "The CPU executes machine instructions (x86_64 or ARM64) directly on the host hardware.",
+          "Standard output stream prints 'Hello Java' to the console and process returns exit code 0."
+        ],
+        tip: "Placement Note: Notice that you run 'java Main', NOT 'java Main.class' or 'java Main.java'. You pass the class name to the JVM.",
+        termHeader: "Terminal — Execution Output",
+        termCode: `<span class="text-slate-400">$</span> <span class="text-green-400 font-bold">java Main</span>
+<span class="text-white text-base font-bold">Hello Java</span>
+
+<span class="text-slate-600">--------------------------------------------------</span>
+<span class="text-emerald-400 font-semibold">[PROCESS COMPLETED]</span>
+<span class="text-slate-400">Exit Code:</span> 0 (SUCCESS)
+<span class="text-slate-400">Execution Time:</span> 0.038s`
+      }
+    ];
+
+    let currentExecStep = 0;
+    let execAutoPlayTimer = null;
+
+    function setExecutionStep(index) {
+      if (index < 0 || index >= executionSteps.length) return;
+      currentExecStep = index;
+      const data = executionSteps[index];
+
+      // Update flow nodes
+      const nodes = document.querySelectorAll('#executionViz .exec-step-node');
+      nodes.forEach((node, i) => {
+        node.classList.remove('active', 'completed');
+        const badge = node.querySelector('.step-badge');
+        const iconDiv = node.children[1];
+        if (i < index) {
+          node.classList.add('completed');
+          if (badge) {
+            badge.className = 'step-badge absolute -top-3 left-4 rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-black text-white shadow';
+          }
+          if (iconDiv) iconDiv.className = 'flex items-center justify-center mb-1 text-emerald-600';
+        } else if (i === index) {
+          node.classList.add('active');
+          if (badge) {
+            badge.className = 'step-badge absolute -top-3 left-4 rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-black text-white shadow';
+          }
+          if (iconDiv) iconDiv.className = 'flex items-center justify-center mb-1 text-blue-600';
+        } else {
+          if (badge) {
+            badge.className = 'step-badge absolute -top-3 left-4 rounded-full bg-slate-400 px-2 py-0.5 text-[10px] font-black text-white shadow';
+          }
+          if (iconDiv) iconDiv.className = 'flex items-center justify-center mb-1 text-slate-400';
+        }
+      });
+
+      // Update connectors
+      const connectors = document.querySelectorAll('#executionViz .exec-connector');
+      connectors.forEach((conn, i) => {
+        if (i < index) {
+          conn.classList.add('active');
+        } else {
+          conn.classList.remove('active');
+        }
+      });
+
+      // Update pills
+      const pills = document.querySelectorAll('#execStepPills button');
+      pills.forEach((pill, i) => {
+        if (i === index) {
+          pill.className = 'h-8 w-8 rounded-lg font-black text-xs transition border border-blue-600 bg-blue-600 text-white shadow-sm';
+        } else if (i < index) {
+          pill.className = 'h-8 w-8 rounded-lg font-black text-xs transition border border-emerald-500 bg-emerald-50 text-emerald-700';
+        } else {
+          pill.className = 'h-8 w-8 rounded-lg font-black text-xs transition border border-slate-200 bg-white text-slate-700 hover:border-blue-500';
+        }
+      });
+
+      // Update progress bar
+      const percent = ((index + 1) / executionSteps.length) * 100;
+      const progressBar = document.getElementById('execProgressBar');
+      const progressLabel = document.getElementById('execProgressLabel');
+      const progressPercent = document.getElementById('execProgressPercent');
+      if (progressBar) progressBar.style.width = percent + '%';
+      if (progressLabel) progressLabel.textContent = `Stage ${data.step} of 5: ${data.name} (${data.file})`;
+      if (progressPercent) progressPercent.textContent = `${percent}% Completed`;
+
+      // Update Detail Card
+      const stepNumEl = document.getElementById('execDetailStepNum');
+      const titleEl = document.getElementById('execDetailTitle');
+      const fileEl = document.getElementById('execDetailFile');
+      const summaryEl = document.getElementById('execDetailSummary');
+      const pointsEl = document.getElementById('execDetailPoints');
+      const tipEl = document.getElementById('execDetailTip');
+
+      if (stepNumEl) stepNumEl.textContent = `PHASE ${data.step} OF 5`;
+      if (titleEl) titleEl.textContent = data.name;
+      if (fileEl) fileEl.textContent = data.file;
+      if (summaryEl) summaryEl.textContent = data.summary;
+      if (pointsEl) {
+        pointsEl.innerHTML = data.points.map(pt => `<li class="flex items-start gap-2"><span class="text-blue-600 font-bold leading-none mt-1">▸</span><span>${pt}</span></li>`).join('');
+      }
+      if (tipEl) {
+        const colonIndex = data.tip.indexOf(':');
+        if (colonIndex !== -1) {
+          tipEl.innerHTML = `<strong>${data.tip.substring(0, colonIndex)}:</strong>${data.tip.substring(colonIndex + 1)}`;
+        } else {
+          tipEl.textContent = data.tip;
+        }
+      }
+
+      // Update Terminal Card
+      const termTitleEl = document.getElementById('execTermTitle');
+      const termContentEl = document.getElementById('execTermContent');
+      if (termTitleEl) termTitleEl.textContent = data.termHeader;
+      if (termContentEl) termContentEl.innerHTML = `<pre class="leading-relaxed font-mono"><code>${data.termCode}</code></pre>`;
+
+      // Update Button states
+      const prevBtn = document.getElementById('execPrevBtn');
+      const nextBtn = document.getElementById('execNextBtn');
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) {
+        if (index === executionSteps.length - 1) {
+          nextBtn.textContent = 'Restart Flow ↺';
+        } else {
+          nextBtn.textContent = 'Next Stage →';
+        }
+      }
+    }
+
+    function nextExecutionStep() {
+      if (currentExecStep >= executionSteps.length - 1) {
+        setExecutionStep(0);
+      } else {
+        setExecutionStep(currentExecStep + 1);
+      }
+    }
+
+    function prevExecutionStep() {
+      if (currentExecStep > 0) {
+        setExecutionStep(currentExecStep - 1);
+      }
+    }
+
+    function toggleExecutionAutoPlay() {
+      const playText = document.getElementById('execPlayText');
+      const playIcon = document.getElementById('execPlayIcon');
+
+      if (execAutoPlayTimer) {
+        clearInterval(execAutoPlayTimer);
+        execAutoPlayTimer = null;
+        if (playText) playText.textContent = 'Auto Play Flow';
+        if (playIcon) playIcon.innerHTML = '<path d="M4 4l12 6-12 6V4z"/>';
+      } else {
+        if (currentExecStep >= executionSteps.length - 1) {
+          setExecutionStep(0);
+        }
+        if (playText) playText.textContent = 'Pause Flow';
+        if (playIcon) playIcon.innerHTML = '<path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z"/>';
+        execAutoPlayTimer = setInterval(() => {
+          if (currentExecStep >= executionSteps.length - 1) {
+            clearInterval(execAutoPlayTimer);
+            execAutoPlayTimer = null;
+            if (playText) playText.textContent = 'Auto Play Flow';
+            if (playIcon) playIcon.innerHTML = '<path d="M4 4l12 6-12 6V4z"/>';
+          } else {
+            nextExecutionStep();
+          }
+        }, 2200);
+      }
+    }
+
+    function resetExecutionFlow() {
+      if (execAutoPlayTimer) {
+        clearInterval(execAutoPlayTimer);
+        execAutoPlayTimer = null;
+        const playText = document.getElementById('execPlayText');
+        const playIcon = document.getElementById('execPlayIcon');
+        if (playText) playText.textContent = 'Auto Play Flow';
+        if (playIcon) playIcon.innerHTML = '<path d="M4 4l12 6-12 6V4z"/>';
+      }
+      setExecutionStep(0);
+    }
+
+    // Backwards compatibility alias
+    function animateExecution() {
+      toggleExecutionAutoPlay();
+    }
+
+    // Initialize execution flow on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => setExecutionStep(0));
+    } else {
+      setTimeout(() => setExecutionStep(0), 0);
+    }
+
+    function animateMemory() {
+      const cells = document.querySelectorAll('#memoryViz .memory-cell');
+      cells.forEach(c => c.classList.remove('active'));
+      cells.forEach((cell, i) => setTimeout(() => cell.classList.add('active'), i * 350));
+    }
+
+    function runDecision() {
+      const marks = Number(document.getElementById('decisionInput').value);
+      const result = document.getElementById('decisionResult');
+      result.classList.remove('active');
+      setTimeout(() => {
+        result.textContent = marks >= 40 ? '✓ PASS — condition is TRUE' : '✗ FAIL — condition is FALSE';
+        result.className = 'decision-path active rounded-xl border-2 px-8 py-5 text-xl font-black ' +
+          (marks >= 40 ? 'border-green-400 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700');
+      }, 300);
+    }
+
+    function runLoop() {
+      const container = document.getElementById('loopViz');
+      const status = document.getElementById('loopStatus');
+      container.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const token = document.createElement('div');
+        token.className = 'loop-token';
+        token.textContent = i;
+        container.appendChild(token);
+      }
+      const tokens = [...container.children];
+      status.textContent = 'Initialization → i = 1';
+      tokens.forEach((token, i) => {
+        setTimeout(() => {
+          tokens.forEach(t => t.classList.remove('active'));
+          token.classList.add('active');
+          status.textContent = `Condition: ${i + 1} <= 5 ✓  →  print(${i + 1})  →  i++`;
+        }, 700 + i * 800);
+      });
+      setTimeout(() => {
+        tokens.forEach(t => t.classList.remove('active'));
+        status.textContent = 'i = 6 → condition 6 <= 5 ✗ → EXIT LOOP';
+      }, 5200);
+    }
+  </script>
+
+</body>
+
+</html>
